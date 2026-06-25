@@ -474,6 +474,23 @@
       </div>
     </div>
   </div>
+
+  <!-- 4-Majors Bonus Standings -->
+  <div class="card" style="margin-top:20px;" id="majorBonusCard">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+      <div>
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text2);">⛳ 4-Majors Bonus Standings</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:5px;">Combined points across all 4 majors (1.5× multiplier each) · $250 prize for season leader</div>
+      </div>
+      <span id="majorBonusProgress" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:5px 12px;border-radius:20px;background:rgba(255,200,60,.12);color:var(--gold);border:1px solid rgba(255,200,60,.3);"></span>
+    </div>
+    <!-- Per-major winner chips -->
+    <div id="majorWinnerChips" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:22px;"></div>
+    <!-- Full standings table -->
+    <div class="table-wrap">
+      <table id="majorBonusTable"></table>
+    </div>
+  </div>
 </section>
 
 <!-- ══════ THIS WEEK ══════ -->
@@ -891,6 +908,40 @@ const SPRINT_TOP5 = [
   {rank:4, owner:"Robert Stong", dk:"rjs5733", sprint:883.25},
   {rank:5, owner:"Charlie Buchanan", dk:"Buchanan_C", sprint:883}
 ];
+const MAJOR_BONUS_STANDINGS = [
+  {rank:1,  owner:"Aaron Jerdee",      dk:"ajerdee",           total:1112.00, behind:0},
+  {rank:2,  owner:"Jack McCarthy",     dk:"jackmacthat",       total:1091.00, behind:21.00},
+  {rank:3,  owner:"Mike Grosh",        dk:"mgrosh20",          total:1073.50, behind:38.50},
+  {rank:4,  owner:"Hicks/Farbman",     dk:"hickstw",           total:1069.00, behind:43.00},
+  {rank:5,  owner:"Chris Clement",     dk:"Golfer0629",        total:1045.00, behind:67.00},
+  {rank:6,  owner:"Jeremy Buchanan",   dk:"Jeromac",           total:1034.00, behind:78.00},
+  {rank:7,  owner:"Ryan Miller",       dk:"Rycmille",          total:1028.50, behind:83.50},
+  {rank:8,  owner:"Farnia Ghavami",    dk:"Farndaddy",         total:1021.00, behind:91.00},
+  {rank:9,  owner:"Collin Jewett",     dk:"chitownCJ",         total:1016.50, behind:95.50},
+  {rank:10, owner:"Anthony Gjonaj",    dk:"DetroitColt",       total:1001.00, behind:111.00},
+  {rank:11, owner:"John Degnan",       dk:"jddegs19",          total:993.00,  behind:119.00},
+  {rank:12, owner:"Chris Cromydas",    dk:"chitownbearskis",   total:987.00,  behind:125.00},
+  {rank:13, owner:"Eric Wills",        dk:"Edubz66",           total:986.00,  behind:126.00},
+  {rank:14, owner:"Connor Thinnes",    dk:"cthinnes4",         total:975.50,  behind:136.50},
+  {rank:15, owner:"Ricky Bravata",     dk:"rbb2321",           total:967.00,  behind:145.00},
+  {rank:16, owner:"Robert Stong",      dk:"rjs5733",           total:952.00,  behind:160.00},
+  {rank:17, owner:"Casey Godfrey",     dk:"CaseyG",            total:946.00,  behind:166.00},
+  {rank:18, owner:"Matt Heiny",        dk:"Heindogger",        total:944.00,  behind:168.00},
+  {rank:19, owner:"Harris Elliott",    dk:"helliottlaw",       total:943.00,  behind:169.00},
+  {rank:20, owner:"Larry Hitchcock",   dk:"IamSchitzweak",     total:941.00,  behind:171.00},
+  {rank:21, owner:"Brent Tebeau",      dk:"Boilerbits",        total:931.00,  behind:181.00},
+  {rank:22, owner:"Brian Danahy",      dk:"bmd1973",           total:928.50,  behind:183.50},
+  {rank:23, owner:"Chris Russell",     dk:"crussgm",           total:915.00,  behind:197.00},
+  {rank:24, owner:"Kyle Young",        dk:"Kunit30",           total:910.50,  behind:201.50},
+  {rank:25, owner:"David Schultz",     dk:"daschultz6",        total:905.50,  behind:206.50},
+  {rank:26, owner:"Gregg Suglia",      dk:"g-regg",            total:874.50,  behind:237.50},
+  {rank:27, owner:"Rob Vassallo",      dk:"RobVassallo1228",   total:867.50,  behind:244.50},
+  {rank:28, owner:"Charlie Buchanan",  dk:"Buchanan_C",        total:866.00,  behind:246.00},
+  {rank:29, owner:"Jason Lovett",      dk:"JasonLovett5800",   total:849.00,  behind:263.00},
+  {rank:30, owner:"Arkush Bros",       dk:"Kudaddy21",         total:839.50,  behind:272.50},
+  {rank:31, owner:"Rhett Graham",      dk:"CallNine11",        total:769.00,  behind:343.00},
+  {rank:32, owner:"Auston Chen",       dk:"chenaus",           total:671.50,  behind:440.50}
+];
 // ⛳DATA_END⛳
 
 // ═══════════════════════════════════════════════════════
@@ -1052,6 +1103,60 @@ function buildOverviewTop5(){
       </div>`;
     });
   }
+}
+
+// ═══════════════════════════════════════════════════════
+// BUILD: 4-MAJORS BONUS STANDINGS (Overview section)
+// ═══════════════════════════════════════════════════════
+function buildMajorBonusSection(){
+  const chipEl  = document.getElementById('majorWinnerChips');
+  const progEl  = document.getElementById('majorBonusProgress');
+  const tblEl   = document.getElementById('majorBonusTable');
+  if(!chipEl || !tblEl) return;
+
+  // ── Per-major winner chips ──
+  const majors = BONUS_RESULTS.majors;
+  const doneCount = majors.filter(m => m.pts > 0).length;
+  if(progEl) progEl.textContent = doneCount + ' of 4 Majors Complete';
+
+  chipEl.innerHTML = majors.map(m => {
+    const done = m.owner && m.pts > 0;
+    const borderCol = done ? 'rgba(100,200,100,.4)' : 'var(--border)';
+    const bgCol     = done ? 'rgba(100,200,100,.07)' : 'var(--card2)';
+    const icon      = done ? '✅' : '🔜';
+    return `<div style="background:${bgCol};border:1px solid ${borderCol};border-radius:12px;padding:12px 16px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text2);text-transform:uppercase;margin-bottom:6px;">${icon} ${m.label}</div>
+      ${done
+        ? `<div style="font-size:13px;font-weight:700;color:var(--text);">${m.owner}</div>
+           <div style="font-size:11px;color:var(--text2);margin-top:2px;">${m.pts.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} pts &nbsp;·&nbsp; <span style="color:var(--green);font-weight:700;">$${m.payout}</span></div>`
+        : `<div style="font-size:12px;color:var(--text2);font-style:italic;">Upcoming</div>`
+      }
+    </div>`;
+  }).join('');
+
+  // ── Standings table ──
+  if(!MAJOR_BONUS_STANDINGS || !MAJOR_BONUS_STANDINGS.length) return;
+  const rankColors = ['var(--gold)','var(--silver)','var(--bronze)'];
+  const rows = MAJOR_BONUS_STANDINGS.map((p, i) => {
+    const rc    = rankColors[i] || 'var(--text2)';
+    const bold  = i < 3 ? '700' : '400';
+    const behind = p.behind > 0 ? `-${p.behind.toFixed(1)}` : '—';
+    const ptCol  = i < 3 ? 'var(--gold)' : 'var(--text)';
+    return `<tr>
+      <td style="text-align:center;font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:${rc};">${p.rank}</td>
+      <td style="font-weight:${bold};color:var(--text);">${p.owner}</td>
+      <td style="color:var(--text2);font-size:12px;">@${p.dk}</td>
+      <td style="text-align:right;font-family:'Orbitron',monospace;font-size:12px;font-weight:600;color:${ptCol};">${p.total.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+      <td style="text-align:right;font-size:12px;color:${p.behind===0?'var(--green)':'var(--text2)'};">${behind}</td>
+    </tr>`;
+  }).join('');
+  tblEl.innerHTML = `<thead><tr>
+    <th style="text-align:center;width:44px;">#</th>
+    <th>Owner</th>
+    <th>DK Name</th>
+    <th style="text-align:right;">Majors Pts</th>
+    <th style="text-align:right;">Behind</th>
+  </tr></thead><tbody>${rows}</tbody>`;
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2058,6 +2163,7 @@ function initStickyColumns(){
 
 buildSprintRows();
 buildOverviewTop5();
+buildMajorBonusSection();
 buildComparisonTable();
 buildCCStandingsTable();
 buildCCMovers();

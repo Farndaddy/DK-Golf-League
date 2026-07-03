@@ -373,6 +373,7 @@
       <div class="header-badges">
         <span class="badge badge-gold" id="overviewWeekBadge">🏆 Week 11 Complete</span>
         <span class="badge badge-green" id="overviewTourneyBadge">⛳ Houston Open</span>
+        <span class="badge badge-blue">📅 Mar 30, 2026</span>
       </div>
     </div>
   </div>
@@ -472,23 +473,6 @@
       <div class="compare-side">
         <table id="slCompareTable"></table>
       </div>
-    </div>
-  </div>
-
-  <!-- 4-Majors Bonus Standings -->
-  <div class="card" style="margin-top:20px;" id="majorBonusCard">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
-      <div>
-        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text2);">⛳ 4-Majors Bonus Standings</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:5px;">Combined points across all 4 majors (1.5× multiplier each) · $250 prize for season leader</div>
-      </div>
-      <span id="majorBonusProgress" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:5px 12px;border-radius:20px;background:rgba(255,200,60,.12);color:var(--gold);border:1px solid rgba(255,200,60,.3);"></span>
-    </div>
-    <!-- Per-major winner chips -->
-    <div id="majorWinnerChips" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:22px;"></div>
-    <!-- Full standings table -->
-    <div class="table-wrap">
-      <table id="majorBonusTable"></table>
     </div>
   </div>
 </section>
@@ -780,7 +764,7 @@
 </section>
 
 </div><!-- /container -->
-<footer><div class="container">⛳ DraftKings Golf League 2026 · Updated June 22, 2026 · Data from Google Sheets</div></footer>
+<footer><div class="container">⛳ DraftKings Golf League 2026 · Generated March 30, 2026 · Data from Google Sheets</div></footer>
 
 <script>
 // ═══════════════════════════════════════════════════════
@@ -808,41 +792,42 @@ const TOURNAMENTS = [
   {week:19,name:"SCHWAB"},
   {week:20,name:"MEMORIAL"},
   {week:21,name:"RBC - CANADA"},
-  {week:22,name:"US OPEN"}
+  {week:22,name:"US OPEN"},
+  {week:23,name:"TRAVELERS"}
 ];
 const PLAYERS = [
-  {rank:1, owner:"Mike Grosh", dk:"mgrosh20", total:10032.75, ccTotal:8297.25, ptsBack:0.0, scores:[439.5,634,421,423,614,490.5,431.5,330,532.5,343,431.5,388,399.75,414.5,514.5,352.5,530.25,627.5,326,384,506.5,498.75]},
-  {rank:2, owner:"Aaron Jerdee", dk:"ajerdee", total:9951.75, ccTotal:8259, ptsBack:81.0, scores:[544.5,567.5,472,515,615,467,442.5,403.5,381,301,347.5,514.5,663.75,408.5,484,458,410.25,443,407,352,443,311.25]},
-  {rank:3, owner:"Chris Cromydas", dk:"chitownbearskis", total:9905.25, ccTotal:8178.75, ptsBack:127.5, scores:[351.5,635.5,414.5,491,534.5,521,351.5,464,345,374,337.5,362.5,681,455.5,520,445.5,572.25,553,341,399,367,388.5]},
-  {rank:4, owner:"Collin Jewett", dk:"chitownCJ", total:9888.25, ccTotal:8112.75, ptsBack:144.5, scores:[404.5,612,528,521,534,438,394,397,410.5,409.5,324,472.5,568.5,500,368.5,412.5,588.75,531,321.5,380.5,391,381]},
-  {rank:5, owner:"Ryan Miller", dk:"Rycmille", total:9843.5, ccTotal:8258.5, ptsBack:189.25, scores:[469.5,559,467,396.5,570.5,475,475.5,349.5,394.5,307.5,528.5,375.5,615,530.5,522.5,430.5,577.5,492,265,318,379,345]},
-  {rank:6, owner:"Rob Vassallo", dk:"RobVassallo1228", total:9829, ccTotal:8115, ptsBack:203.75, scores:[362.5,505,482.5,496.5,643.5,386.5,503,338.5,515,378.5,446,342.5,498.75,544.5,408.5,419.5,446.25,584,361.5,309,447.5,409.5]},
-  {rank:7, owner:"Larry Hitchcock", dk:"IamSchitzweak", total:9816, ccTotal:8150.25, ptsBack:216.75, scores:[336,605,413,410.5,546.5,513,508.5,350,419.5,392,523,395.5,490.5,498,484.5,463.5,536.25,536.5,284,335,414.5,360.75]},
-  {rank:8, owner:"Hicks/Farbman", dk:"hickstw", total:9685.75, ccTotal:8028.75, ptsBack:347.0, scores:[475,594,446,359.5,602.5,396.5,303.5,414.5,330,339,491,330,647.25,492,447,363.5,481.5,514,354.5,414,412,478.5]},
-  {rank:9, owner:"Rhett Graham", dk:"CallNine11", total:9640.75, ccTotal:8090.75, ptsBack:392.0, scores:[287,482,513.5,507.5,529,443.5,415,312.5,315.5,317.5,511.5,406.5,385.5,536.5,496.5,381.5,588.75,577,317.5,395.5,390,531]},
-  {rank:10, owner:"John Degnan", dk:"jddegs19", total:9608.75, ccTotal:8005.25, ptsBack:424.0, scores:[373,620,589.5,429,586.5,444,452.5,343.5,311.5,392.5,361,330.5,571.5,449,469.5,445,429,567.5,299,319,445.5,380.25]},
-  {rank:11, owner:"Farnia Ghavami", dk:"Farndaddy", total:9463.5, ccTotal:7658, ptsBack:569.25, scores:[390.5,630.5,353.5,378,480,435,409,374,357,353.5,486,406.5,507.75,434,466.5,433,456.75,503.5,386.5,453.5,401,367.5]},
-  {rank:12, owner:"Chris Russell", dk:"crussgm", total:9456, ccTotal:7925.25, ptsBack:576.75, scores:[312.5,602.5,314,407.5,527,356.5,403.5,385.5,456.5,378.5,472,529,531.75,427,435.5,471.5,598.5,501,308.5,403,395,239.25]},
-  {rank:13, owner:"Anthony Gjonaj", dk:"DetroitColt", total:9453.25, ccTotal:7830.5, ptsBack:579.5, scores:[367.5,633.5,506.5,375.5,597.5,512,365,354.5,468,308.5,462.5,352,503.25,434.5,466,489.5,305.25,358.5,416.5,302.5,420.5,453.75]},
-  {rank:14, owner:"Brent Tebeau", dk:"Boilerbits", total:9357.75, ccTotal:7703.75, ptsBack:675.0, scores:[352,579,464,397.5,520,377.5,337,308.5,404.5,351,451,398,537.75,490,454.5,396.5,571.5,498.5,357,305.5,361,445.5]},
-  {rank:15, owner:"Rbb2321", dk:"Rbb2321", total:9340, ccTotal:7826.75, ptsBack:692.75, scores:[372.5,594.5,482.5,393.5,526,348,413,415,304.5,221.5,420,561.5,438,521,504,457.5,474.75,528,338.5,324,377,324.75]},
-  {rank:16, owner:"Arkush Bros", dk:"Kudaddy21", total:9310.5, ccTotal:7722, ptsBack:722.25, scores:[391.5,448,389,395,560,451,373,396,378.5,252.5,395.5,343,513,556,433,439,488.25,577,379.5,312.5,307.5,531.75]},
-  {rank:17, owner:"Eric Wills", dk:"Edubz66", total:9276, ccTotal:8088, ptsBack:756.75, scores:[458,528,491.5,404,563,421,294,314.5,453.5,303,478,426,666.75,null,523.5,484,502.5,523,323.5,276.5,340,501.75]},
-  {rank:18, owner:"Casey Godfrey", dk:"CaseyG", total:9255.25, ccTotal:7848.25, ptsBack:777.5, scores:[350.5,595.5,386,534.5,587,423.5,360,360,371.5,340.5,388,356,425.25,442.5,482.5,472,552,493.5,null,455,452,427.5]},
-  {rank:19, owner:"Charlie Buchanan", dk:"Buchanan_C", total:9248.25, ccTotal:8010.75, ptsBack:784.5, scores:[402,464,538,576,648,408,null,341.5,280,280.5,363,357,594,492,438.5,426,620.25,409,392,335.5,445,438]},
-  {rank:20, owner:"Chris Clement", dk:"Golfer0629", total:9209, ccTotal:7768.5, ptsBack:823.75, scores:[438,607,377,548.5,523,421.5,null,346,388.5,419.5,470,416.5,562.5,425,481.5,425,405,435.5,377,350,424.5,367.5]},
-  {rank:21, owner:"Connor Thinnes", dk:"cthinnes4", total:9144.75, ccTotal:7849, ptsBack:888.0, scores:[474,501.5,466.5,535.5,632.5,401,399,274,491,358.5,365,455.5,477,482.5,413,350.5,450,489,455,361,null,312.75]},
-  {rank:22, owner:"Robert Stong", dk:"rjs5733", total:9097.75, ccTotal:7582.75, ptsBack:935.0, scores:[325.5,626.5,326.5,477,557.5,469.5,389,329,348,263.5,375,349.5,445.5,532,512,408.5,403.5,437.5,270.5,368.5,407,476.25]},
-  {rank:23, owner:"Kyle Young", dk:"Kunit30", total:8900.5, ccTotal:7667.75, ptsBack:1132.25, scores:[343,567.5,455.5,464,633,372,386.5,346.5,481,325,465.5,455,363,521,442,null,407.25,515.5,303.5,293,449.5,311.25]},
-  {rank:24, owner:"Gregg Suglia", dk:"g-regg", total:8723.75, ccTotal:7342.25, ptsBack:1309.0, scores:[384.5,490,229.5,339.5,635,432,409,247,415.5,345,395.5,338.5,523.5,496.5,411,388,438,562.5,334.5,330.5,240,338.25]},
-  {rank:25, owner:"Matt Heiny", dk:"Heindogger", total:8657.5, ccTotal:7667, ptsBack:1375.25, scores:[358,586,398.5,444,594.5,490.5,434.5,402,470,234,328,262,528,476,481.5,389,417,515.5,354,207.5,287,null]},
-  {rank:26, owner:"Auston Chen", dk:"chenaus", total:8545, ccTotal:7262.5, ptsBack:1487.75, scores:[150,521.5,268,313.5,532,268,447.5,357.5,344.5,296,364,317.5,680.25,477.5,502.5,459.5,340.5,556,300.5,304.5,360.5,383.25]},
-  {rank:27, owner:"Harris Elliott", dk:"helliottlaw", total:8301.25, ccTotal:7637.25, ptsBack:1731.5, scores:[384,559,396.5,438.5,543,413.5,366.5,336,291.5,null,167,396.5,723.75,436,411,521.5,396,582,205.5,null,355.5,378]},
-  {rank:28, owner:"Brian Danahy", dk:"bmd1973", total:8277.5, ccTotal:7428, ptsBack:1755.25, scores:[338,590.5,309,null,514.5,407.5,415,307.5,445,342.5,431.5,435.5,442.5,499.5,521,375,435,553,320.5,233,null,361.5]},
-  {rank:29, owner:"Jeremy Buchanan", dk:"Jeromac", total:7841.5, ccTotal:7099.5, ptsBack:2191.25, scores:[408.5,625.5,347,403.5,586,464,287,265,337.5,224.5,396,292.5,309,null,416.5,499,372,556.5,343,252.5,null,456]},
-  {rank:30, owner:"David Schultz", dk:"daschultz6", total:7553, ccTotal:7328, ptsBack:2479.75, scores:[341.5,564,373,498.5,605.5,453.5,344,355,428.5,225,null,null,null,430.5,471,425.5,529.5,537.5,284.5,269,null,417]},
-  {rank:31, owner:"Jack McCarthy", dk:"jackmacthat", total:7215.25, ccTotal:7215.25, ptsBack:2817.5, scores:[530,561,397.5,526.5,562.5,346.5,390,442,365,175.5,null,288,564,491,null,401.5,471.75,null,null,362,null,340.5]},
-  {rank:32, owner:"Jasonlovett5800", dk:"Jasonlovett5800", total:5591.25, ccTotal:5591.25, ptsBack:4441.5, scores:[282,567,386,398,564.5,350,440,421,398.5,null,null,null,401.25,null,414,null,528,null,null,null,null,441]}
+  {rank:1, owner:"Mike Grosh", dk:"mgrosh20", total:10615.75, ccTotal:8880.25, ptsBack:0, scores:[439.5,634,421,423,614,490.5,431.5,330,532.5,343,431.5,388,399.75,414.5,514.5,352.5,530.25,627.5,326,384,506.5,498.75,583]},
+  {rank:2, owner:"Aaron Jerdee", dk:"ajerdee", total:10566.25, ccTotal:8873.5, ptsBack:49.5, scores:[544.5,567.5,472,515,615,467,442.5,403.5,381,301,347.5,514.5,663.75,408.5,484,458,410.25,443,407,352,443,311.25,614.5]},
+  {rank:3, owner:"Chris Cromydas", dk:"chitownbearskis", total:10500.75, ccTotal:8774.25, ptsBack:115.0, scores:[351.5,635.5,414.5,491,534.5,521,351.5,464,345,374,337.5,362.5,681,455.5,520,445.5,572.25,553,341,399,367,388.5,595.5]},
+  {rank:4, owner:"Collin Jewett", dk:"chitownCJ", total:10457.25, ccTotal:8681.75, ptsBack:158.5, scores:[404.5,612,528,521,534,438,394,397,410.5,409.5,324,472.5,568.5,500,368.5,412.5,588.75,531,321.5,380.5,391,381,569]},
+  {rank:5, owner:"Ryan Miller", dk:"Rycmille", total:10400, ccTotal:8815, ptsBack:215.75, scores:[469.5,559,467,396.5,570.5,475,475.5,349.5,394.5,307.5,528.5,375.5,615,530.5,522.5,430.5,577.5,492,265,318,379,345,556.5]},
+  {rank:6, owner:"Rob Vassallo", dk:"RobVassallo1228", total:10398.5, ccTotal:8684.5, ptsBack:217.25, scores:[362.5,505,482.5,496.5,643.5,386.5,503,338.5,515,378.5,446,342.5,498.75,544.5,408.5,419.5,446.25,584,361.5,309,447.5,409.5,569.5]},
+  {rank:7, owner:"Larry Hitchcock", dk:"IamSchitzweak", total:10369, ccTotal:8703.25, ptsBack:246.75, scores:[336,605,413,410.5,546.5,513,508.5,350,419.5,392,523,395.5,490.5,498,484.5,463.5,536.25,536.5,284,335,414.5,360.75,553]},
+  {rank:8, owner:"Hicks/Farbman", dk:"hickstw", total:10241.25, ccTotal:8584.25, ptsBack:374.5, scores:[475,594,446,359.5,602.5,396.5,303.5,414.5,330,339,491,330,647.25,492,447,363.5,481.5,514,354.5,414,412,478.5,555.5]},
+  {rank:9, owner:"Rhett Graham", dk:"CallNine11", total:10212.75, ccTotal:8662.75, ptsBack:403.0, scores:[287,482,513.5,507.5,529,443.5,415,312.5,315.5,317.5,511.5,406.5,385.5,536.5,496.5,381.5,588.75,577,317.5,395.5,390,531,572]},
+  {rank:10, owner:"John Degnan", dk:"jddegs19", total:10135.25, ccTotal:8531.75, ptsBack:480.5, scores:[373,620,589.5,429,586.5,444,452.5,343.5,311.5,392.5,361,330.5,571.5,449,469.5,445,429,567.5,299,319,445.5,380.25,526.5]},
+  {rank:11, owner:"Chris Russell", dk:"crussgm", total:10040, ccTotal:8509.25, ptsBack:575.75, scores:[312.5,602.5,314,407.5,527,356.5,403.5,385.5,456.5,378.5,472,529,531.75,427,435.5,471.5,598.5,501,308.5,403,395,239.25,584]},
+  {rank:12, owner:"Farnia Ghavami", dk:"Farndaddy", total:10032, ccTotal:8226.5, ptsBack:583.75, scores:[390.5,630.5,353.5,378,480,435,409,374,357,353.5,486,406.5,507.75,434,466.5,433,456.75,503.5,386.5,453.5,401,367.5,568.5]},
+  {rank:13, owner:"Anthony Gjonaj", dk:"DetroitColt", total:10014.25, ccTotal:8391.5, ptsBack:601.5, scores:[367.5,633.5,506.5,375.5,597.5,512,365,354.5,468,308.5,462.5,352,503.25,434.5,466,489.5,305.25,358.5,416.5,302.5,420.5,453.75,561]},
+  {rank:14, owner:"Brent Tebeau", dk:"Boilerbits", total:9950.25, ccTotal:8296.25, ptsBack:665.5, scores:[352,579,464,397.5,520,377.5,337,308.5,404.5,351,451,398,537.75,490,454.5,396.5,571.5,498.5,357,305.5,361,445.5,592.5]},
+  {rank:15, owner:"Arkush Bros", dk:"Kudaddy21", total:9834.5, ccTotal:8246, ptsBack:781.25, scores:[391.5,448,389,395,560,451,373,396,378.5,252.5,395.5,343,513,556,433,439,488.25,577,379.5,312.5,307.5,531.75,524]},
+  {rank:16, owner:"Charlie Buchanan", dk:"Buchanan_C", total:9829.25, ccTotal:8591.75, ptsBack:786.5, scores:[402,464,538,576,648,408,null,341.5,280,280.5,363,357,594,492,438.5,426,620.25,409,392,335.5,445,438,581]},
+  {rank:17, owner:"Rbb2321", dk:"Rbb2321", total:9827, ccTotal:8313.75, ptsBack:788.75, scores:[372.5,594.5,482.5,393.5,526,348,413,415,304.5,221.5,420,561.5,438,521,504,457.5,474.75,528,338.5,324,377,324.75,487]},
+  {rank:18, owner:"Chris Clement", dk:"Golfer0629", total:9799.5, ccTotal:8359, ptsBack:816.25, scores:[438,607,377,548.5,523,421.5,null,346,388.5,419.5,470,416.5,562.5,425,481.5,425,405,435.5,377,350,424.5,367.5,590.5]},
+  {rank:19, owner:"Eric Wills", dk:"Edubz66", total:9780, ccTotal:8592, ptsBack:835.75, scores:[458,528,491.5,404,563,421,294,314.5,453.5,303,478,426,666.75,null,523.5,484,502.5,523,323.5,276.5,340,501.75,504]},
+  {rank:20, owner:"Connor Thinnes", dk:"cthinnes4", total:9699.25, ccTotal:8403.5, ptsBack:916.5, scores:[474,501.5,466.5,535.5,632.5,401,399,274,491,358.5,365,455.5,477,482.5,413,350.5,450,489,455,361,null,312.75,554.5]},
+  {rank:21, owner:"Robert Stong", dk:"rjs5733", total:9600.75, ccTotal:8085.75, ptsBack:1015.0, scores:[325.5,626.5,326.5,477,557.5,469.5,389,329,348,263.5,375,349.5,445.5,532,512,408.5,403.5,437.5,270.5,368.5,407,476.25,503]},
+  {rank:22, owner:"Kyle Young", dk:"Kunit30", total:9362.5, ccTotal:8129.75, ptsBack:1253.25, scores:[343,567.5,455.5,464,633,372,386.5,346.5,481,325,465.5,455,363,521,442,null,407.25,515.5,303.5,293,449.5,311.25,462]},
+  {rank:23, owner:"Gregg Suglia", dk:"g-regg", total:9295.25, ccTotal:7913.75, ptsBack:1320.5, scores:[384.5,490,229.5,339.5,635,432,409,247,415.5,345,395.5,338.5,523.5,496.5,411,388,438,562.5,334.5,330.5,240,338.25,571.5]},
+  {rank:24, owner:"Casey Godfrey", dk:"CaseyG", total:9255.25, ccTotal:8208.25, ptsBack:1360.5, scores:[350.5,595.5,386,534.5,587,423.5,360,360,371.5,340.5,388,356,425.25,442.5,482.5,472,552,493.5,null,455,452,427.5,null]},
+  {rank:25, owner:"Matt Heiny", dk:"Heindogger", total:9152.5, ccTotal:8162, ptsBack:1463.25, scores:[358,586,398.5,444,594.5,490.5,434.5,402,470,234,328,262,528,476,481.5,389,417,515.5,354,207.5,287,null,495]},
+  {rank:26, owner:"Auston Chen", dk:"chenaus", total:9016, ccTotal:7733.5, ptsBack:1599.75, scores:[150,521.5,268,313.5,532,268,447.5,357.5,344.5,296,364,317.5,680.25,477.5,502.5,459.5,340.5,556,300.5,304.5,360.5,383.25,471]},
+  {rank:27, owner:"Harris Elliott", dk:"helliottlaw", total:8802.75, ccTotal:8138.75, ptsBack:1813.0, scores:[384,559,396.5,438.5,543,413.5,366.5,336,291.5,null,167,396.5,723.75,436,411,521.5,396,582,205.5,null,355.5,378,501.5]},
+  {rank:28, owner:"Brian Danahy", dk:"bmd1973", total:8728.5, ccTotal:7879, ptsBack:1887.25, scores:[338,590.5,309,null,514.5,407.5,415,307.5,445,342.5,431.5,435.5,442.5,499.5,521,375,435,553,320.5,233,null,361.5,451]},
+  {rank:29, owner:"Jeremy Buchanan", dk:"Jeromac", total:8341.5, ccTotal:7599.5, ptsBack:2274.25, scores:[408.5,625.5,347,403.5,586,464,287,265,337.5,224.5,396,292.5,309,null,416.5,499,372,556.5,343,252.5,null,456,500]},
+  {rank:30, owner:"David Schultz", dk:"daschultz6", total:8070, ccTotal:7845, ptsBack:2545.75, scores:[341.5,564,373,498.5,605.5,453.5,344,355,428.5,225,null,null,null,430.5,471,425.5,529.5,537.5,284.5,269,null,417,517]},
+  {rank:31, owner:"Jack McCarthy", dk:"jackmacthat", total:7769.25, ccTotal:7769.25, ptsBack:2846.5, scores:[530,561,397.5,526.5,562.5,346.5,390,442,365,175.5,null,288,564,491,null,401.5,471.75,null,null,362,null,340.5,554]},
+  {rank:32, owner:"Jasonlovett5800", dk:"Jasonlovett5800", total:5591.25, ccTotal:5591.25, ptsBack:5024.5, scores:[282,567,386,398,564.5,350,440,421,398.5,null,null,null,401.25,null,414,null,528,null,null,null,null,441,null]}
 ];
 const WEEKLY_RESULTS = [
   {week:1, tourney:"SONY", first:{owner:"Aaron Jerdee",dk:"ajerdee",score:544.5}, second:{owner:"Jack McCarthy",dk:"jackmacthat",score:530}},
@@ -867,7 +852,7 @@ const WEEKLY_RESULTS = [
   {week:20, tourney:"MEMORIAL", first:{owner:"Casey Godfrey",dk:"CaseyG",score:455}, second:{owner:"Farnia Ghavami",dk:"Farndaddy",score:453.5}},
   {week:21, tourney:"RBC - CANADA", first:{owner:"Mike Grosh",dk:"mgrosh20",score:506.5}, second:{owner:"Casey Godfrey",dk:"CaseyG",score:452}},
   {week:22, tourney:"US OPEN", first:{owner:"Arkush Bros",dk:"Kudaddy21",score:531.75}, second:{owner:"Rhett Graham",dk:"CallNine11",score:531}},
-  {week:23, tourney:"Week 23", first:{owner:"",dk:"",score:0}, second:{owner:"",dk:"",score:0}},
+  {week:23, tourney:"TRAVELERS", first:{owner:"Aaron Jerdee",dk:"ajerdee",score:614.5}, second:{owner:"Chris Cromydas",dk:"chitownbearskis",score:595.5}},
   {week:24, tourney:"Week 24", first:{owner:"",dk:"",score:0}, second:{owner:"",dk:"",score:0}},
   {week:25, tourney:"Week 25", first:{owner:"",dk:"",score:0}, second:{owner:"",dk:"",score:0}},
   {week:26, tourney:"Week 26", first:{owner:"",dk:"",score:0}, second:{owner:"",dk:"",score:0}},
@@ -877,10 +862,10 @@ const WEEKLY_RESULTS = [
   {week:30, tourney:"Week 30", first:{owner:"",dk:"",score:0}, second:{owner:"",dk:"",score:0}}
 ];
 const EARNINGS = [
-  {owner:"Aaron Jerdee", dk:"ajerdee", firstWins:1, secondWins:0, total:500},
+  {owner:"Aaron Jerdee", dk:"ajerdee", firstWins:2, secondWins:0, total:600},
   {owner:"Charlie Buchanan", dk:"Buchanan_C", firstWins:3, secondWins:1, total:450},
   {owner:"Mike Grosh", dk:"mgrosh20", firstWins:3, secondWins:1, total:450},
-  {owner:"Chris Cromydas", dk:"chitownbearskis", firstWins:3, secondWins:1, total:350},
+  {owner:"Chris Cromydas", dk:"chitownbearskis", firstWins:3, secondWins:2, total:400},
   {owner:"Arkush Bros", dk:"Kudaddy21", firstWins:2, secondWins:0, total:300},
   {owner:"Harris Elliott", dk:"helliottlaw", firstWins:2, secondWins:0, total:300},
   {owner:"Rhett Graham", dk:"CallNine11", firstWins:0, secondWins:1, total:250},
@@ -902,45 +887,11 @@ const EARNINGS = [
   {owner:"Jeremy Buchanan", dk:"Jeromac", firstWins:0, secondWins:1, total:50}
 ];
 const SPRINT_TOP5 = [
-  {rank:1, owner:"Mike Grosh", dk:"mgrosh20", sprint:1005.25},
-  {rank:2, owner:"Rhett Graham", dk:"CallNine11", sprint:921},
-  {rank:3, owner:"Hicks/Farbman", dk:"hickstw", sprint:890.5},
-  {rank:4, owner:"Robert Stong", dk:"rjs5733", sprint:883.25},
-  {rank:5, owner:"Charlie Buchanan", dk:"Buchanan_C", sprint:883}
-];
-const MAJOR_BONUS_STANDINGS = [
-  {rank:1,  owner:"Eric Wills",        dk:"Edubz66",           total:1671.00, behind:0},
-  {rank:2,  owner:"Charlie Buchanan",  dk:"Buchanan_C",        total:1652.25, behind:18.75},
-  {rank:3,  owner:"Chris Cromydas",    dk:"chitownbearskis",   total:1641.75, behind:29.25},
-  {rank:4,  owner:"Hicks/Farbman",     dk:"hickstw",           total:1607.25, behind:63.75},
-  {rank:5,  owner:"Brent Tebeau",      dk:"Boilerbits",        total:1554.75, behind:116.25},
-  {rank:6,  owner:"Collin Jewett",     dk:"chitownCJ",         total:1538.25, behind:132.75},
-  {rank:7,  owner:"Ryan Miller",       dk:"Rycmille",          total:1537.50, behind:133.50},
-  {rank:8,  owner:"Arkush Bros",       dk:"Kudaddy21",         total:1533.00, behind:138.00},
-  {rank:9,  owner:"Rhett Graham",      dk:"CallNine11",        total:1505.25, behind:165.75},
-  {rank:10, owner:"Harris Elliott",    dk:"helliottlaw",       total:1497.75, behind:173.25},
-  {rank:11, owner:"Mike Grosh",        dk:"mgrosh20",          total:1428.75, behind:242.25},
-  {rank:12, owner:"Casey Godfrey",     dk:"CaseyG",            total:1404.75, behind:266.25},
-  {rank:13, owner:"Auston Chen",       dk:"chenaus",           total:1404.00, behind:267.00},
-  {rank:14, owner:"Larry Hitchcock",   dk:"IamSchitzweak",     total:1387.50, behind:283.50},
-  {rank:15, owner:"Aaron Jerdee",      dk:"ajerdee",           total:1385.25, behind:285.75},
-  {rank:16, owner:"John Degnan",       dk:"jddegs19",          total:1380.75, behind:290.25},
-  {rank:17, owner:"Jack McCarthy",     dk:"jackmacthat",       total:1376.25, behind:294.75},
-  {rank:18, owner:"Jason Lovett",      dk:"JasonLovett5800",   total:1370.25, behind:300.75},
-  {rank:19, owner:"Chris Russell",     dk:"crussgm",           total:1369.50, behind:301.50},
-  {rank:20, owner:"Rob Vassallo",      dk:"RobVassallo1228",   total:1354.50, behind:316.50},
-  {rank:21, owner:"Chris Clement",     dk:"Golfer0629",        total:1335.00, behind:336.00},
-  {rank:22, owner:"Farnia Ghavami",    dk:"Farndaddy",         total:1332.00, behind:339.00},
-  {rank:23, owner:"Robert Stong",      dk:"rjs5733",           total:1325.25, behind:345.75},
-  {rank:24, owner:"Gregg Suglia",      dk:"g-regg",            total:1299.75, behind:371.25},
-  {rank:25, owner:"Anthony Gjonaj",    dk:"DetroitColt",       total:1262.25, behind:408.75},
-  {rank:26, owner:"Connor Thinnes",    dk:"cthinnes4",         total:1239.75, behind:431.25},
-  {rank:27, owner:"Brian Danahy",      dk:"bmd1973",           total:1239.00, behind:432.00},
-  {rank:28, owner:"Ricky Bravata",     dk:"rbb2321",           total:1237.50, behind:433.50},
-  {rank:29, owner:"Jeremy Buchanan",   dk:"Jeromac",           total:1137.00, behind:534.00},
-  {rank:30, owner:"Kyle Young",        dk:"Kunit30",           total:1081.50, behind:589.50},
-  {rank:31, owner:"David Schultz",     dk:"daschultz6",        total:946.50,  behind:724.50},
-  {rank:32, owner:"Matt Heiny",        dk:"Heindogger",        total:945.00,  behind:726.00}
+  {rank:1, owner:"Mike Grosh", dk:"mgrosh20", sprint:1588.25},
+  {rank:2, owner:"Rhett Graham", dk:"CallNine11", sprint:1493},
+  {rank:3, owner:"Charlie Buchanan", dk:"Buchanan_C", sprint:1464},
+  {rank:4, owner:"Hicks/Farbman", dk:"hickstw", sprint:1446},
+  {rank:5, owner:"Anthony Gjonaj", dk:"DetroitColt", sprint:1435.25}
 ];
 // ⛳DATA_END⛳
 
@@ -979,8 +930,8 @@ const BONUS_RESULTS = {
 // ═══════════════════════════════════════════════════════
 // CURRENT WEEK — Apps Script updates this each week
 // ⛳WEEK_START⛳
-const CURRENT_WEEK_IDX = 21; // 0-based index of most recent week
-const CURRENT_WEEK_META = {week:22, name:"US OPEN", tourney:"US OPEN", venue:"", date:""};
+const CURRENT_WEEK_IDX = 22; // 0-based index of most recent week
+const CURRENT_WEEK_META = {week:23, name:"TRAVELERS", tourney:"TRAVELERS", venue:"", date:""};
 // ⛳WEEK_END⛳
 
 // ═══════════════════════════════════════════════════════
@@ -1103,60 +1054,6 @@ function buildOverviewTop5(){
       </div>`;
     });
   }
-}
-
-// ═══════════════════════════════════════════════════════
-// BUILD: 4-MAJORS BONUS STANDINGS (Overview section)
-// ═══════════════════════════════════════════════════════
-function buildMajorBonusSection(){
-  const chipEl  = document.getElementById('majorWinnerChips');
-  const progEl  = document.getElementById('majorBonusProgress');
-  const tblEl   = document.getElementById('majorBonusTable');
-  if(!chipEl || !tblEl) return;
-
-  // ── Per-major winner chips ──
-  const majors = BONUS_RESULTS.majors;
-  const doneCount = majors.filter(m => m.pts > 0).length;
-  if(progEl) progEl.textContent = doneCount + ' of 4 Majors Complete';
-
-  chipEl.innerHTML = majors.map(m => {
-    const done = m.owner && m.pts > 0;
-    const borderCol = done ? 'rgba(100,200,100,.4)' : 'var(--border)';
-    const bgCol     = done ? 'rgba(100,200,100,.07)' : 'var(--card2)';
-    const icon      = done ? '✅' : '🔜';
-    return `<div style="background:${bgCol};border:1px solid ${borderCol};border-radius:12px;padding:12px 16px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text2);text-transform:uppercase;margin-bottom:6px;">${icon} ${m.label}</div>
-      ${done
-        ? `<div style="font-size:13px;font-weight:700;color:var(--text);">${m.owner}</div>
-           <div style="font-size:11px;color:var(--text2);margin-top:2px;">${m.pts.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} pts &nbsp;·&nbsp; <span style="color:var(--green);font-weight:700;">$${m.payout}</span></div>`
-        : `<div style="font-size:12px;color:var(--text2);font-style:italic;">Upcoming</div>`
-      }
-    </div>`;
-  }).join('');
-
-  // ── Standings table ──
-  if(!MAJOR_BONUS_STANDINGS || !MAJOR_BONUS_STANDINGS.length) return;
-  const rankColors = ['var(--gold)','var(--silver)','var(--bronze)'];
-  const rows = MAJOR_BONUS_STANDINGS.map((p, i) => {
-    const rc    = rankColors[i] || 'var(--text2)';
-    const bold  = i < 3 ? '700' : '400';
-    const behind = p.behind > 0 ? `-${p.behind.toFixed(1)}` : '—';
-    const ptCol  = i < 3 ? 'var(--gold)' : 'var(--text)';
-    return `<tr>
-      <td style="text-align:center;font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:${rc};">${p.rank}</td>
-      <td style="font-weight:${bold};color:var(--text);">${p.owner}</td>
-      <td style="color:var(--text2);font-size:12px;">@${p.dk}</td>
-      <td style="text-align:right;font-family:'Orbitron',monospace;font-size:12px;font-weight:600;color:${ptCol};">${p.total.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
-      <td style="text-align:right;font-size:12px;color:${p.behind===0?'var(--green)':'var(--text2)'};">${behind}</td>
-    </tr>`;
-  }).join('');
-  tblEl.innerHTML = `<thead><tr>
-    <th style="text-align:center;width:44px;">#</th>
-    <th>Owner</th>
-    <th>DK Name</th>
-    <th style="text-align:right;">Majors Pts</th>
-    <th style="text-align:right;">Behind</th>
-  </tr></thead><tbody>${rows}</tbody>`;
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1493,7 +1390,7 @@ function buildMoversLists(){
 
 function buildMoversTable(){
   const t=document.getElementById('moversTable');
-  t.innerHTML=`<thead><tr><th>Player</th><th>DK Name</th><th>Prev Season-Long Rank</th><th>Season-Long Rank</th><th>Change</th><th>Wk${CURRENT_WEEK_META.week} Score</th><th>Season-Long Pts</th></tr></thead>`;
+  t.innerHTML=`<thead><tr><th>Player</th><th>DK Name</th><th>Wk${CURRENT_WEEK_META.week-1} Rank</th><th>Wk${CURRENT_WEEK_META.week} Rank</th><th>Change</th><th>Wk${CURRENT_WEEK_META.week} Score</th><th>Season Total</th></tr></thead>`;
   const tb=document.createElement('tbody');
   // Sort by move descending: biggest climbers first, biggest droppers last
   [...MOVERS].sort((a,b)=>b.move-a.move).forEach(p=>{
@@ -1505,7 +1402,7 @@ function buildMoversTable(){
       <td><span class="rank-num ${getRankClass(p.rank)}">${p.rank}</span></td>
       <td>${getMoveHtml(p.move)}</td>
       <td style="color:var(--text2)">${p.scores[CURRENT_WEEK_IDX]?fmtScore(p.scores[CURRENT_WEEK_IDX]):'—'}</td>
-      <td><span style="font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--green)">${fmt(p.total)}</span></td>`;
+      <td><span class="total-score">${fmt(p.total)}</span></td>`;
     tb.appendChild(tr);
   });
   t.appendChild(tb);
@@ -2163,7 +2060,6 @@ function initStickyColumns(){
 
 buildSprintRows();
 buildOverviewTop5();
-buildMajorBonusSection();
 buildComparisonTable();
 buildCCStandingsTable();
 buildCCMovers();

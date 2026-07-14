@@ -475,6 +475,30 @@
       </div>
     </div>
   </div>
+
+  <!-- ── 4-MAJORS BONUS STANDINGS ── -->
+  <div class="card" style="margin-top:20px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
+      <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);">🏌 4-Majors Bonus Standings</div>
+      <span id="majorsCompleteBadge" style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(212,175,55,0.15);color:var(--gold);border:1px solid var(--gold);">0 OF 4 MAJORS COMPLETE</span>
+      <div style="margin-left:auto;font-size:12px;color:var(--text2);">Combined points across all 4 majors (1.5× multiplier each) · $250 prize for season leader</div>
+    </div>
+    <!-- Individual major winner cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px;" id="individualMajorsGrid"></div>
+    <!-- Standings table -->
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="color:var(--text2);border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.5px;">
+          <th style="text-align:left;padding:8px 0;width:40px;">#</th>
+          <th style="text-align:left;padding:8px 0;">Owner</th>
+          <th style="text-align:left;padding:8px 0;">DK Name</th>
+          <th style="text-align:right;padding:8px 0;">Majors Pts</th>
+          <th style="text-align:right;padding:8px 0;">Behind</th>
+        </tr>
+      </thead>
+      <tbody id="majorsStandingsTbody"></tbody>
+    </table>
+  </div>
 </section>
 
 <!-- ══════ THIS WEEK ══════ -->
@@ -1193,6 +1217,71 @@ function switchMoversView(view){
   document.getElementById('slMoversWrap').style.display = view==='sl'?'':'none';
   document.getElementById('moversToggleCC').className = 'vtoggle-btn'+(view==='cc'?' active gold':'');
   document.getElementById('moversToggleSL').className = 'vtoggle-btn'+(view==='sl'?' active':'');
+}
+
+// ── 4-MAJORS BONUS STANDINGS ─────────────────────────────────────────────
+// Shows combined major points per player + individual major winner cards.
+// Major weeks: 13 (Masters), 17 (PGA), 22 (US Open), 26 (The Open)
+// $100 bonus per major win; $250 prize for highest combined major pts.
+// NOTE: This module must be preserved in every weekly HTML update.
+function buildMajorsStandings(){
+  const MAJOR_WEEKS = [13,17,22,26];
+  const MAJOR_NAMES = {13:'The Masters',17:'PGA',22:'US Open',26:'The Open'};
+
+  // Map week number → scores array index using TOURNAMENTS
+  const majorIdx = {};
+  TOURNAMENTS.forEach((t,i)=>{ if(MAJOR_WEEKS.includes(t.week)) majorIdx[t.week]=i; });
+  const completed = MAJOR_WEEKS.filter(wk => majorIdx[wk] !== undefined);
+
+  // Badge
+  const badge = document.getElementById('majorsCompleteBadge');
+  if(badge) badge.textContent = `${completed.length} OF 4 MAJORS COMPLETE`;
+
+  // Individual major winner cards
+  const grid = document.getElementById('individualMajorsGrid');
+  if(grid){
+    MAJOR_WEEKS.forEach(wk=>{
+      const done = majorIdx[wk] !== undefined;
+      const wr   = (typeof WEEKLY_RESULTS!=='undefined') ? WEEKLY_RESULTS.find(r=>r.week===wk) : null;
+      const card = document.createElement('div');
+      card.style.cssText='border:1px solid var(--border);border-radius:12px;padding:16px;background:var(--card2);';
+      if(done && wr && wr.first && wr.first.score>0){
+        card.innerHTML=`<div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:6px;">✅ ${MAJOR_NAMES[wk].toUpperCase()}</div>`+
+          `<div style="font-size:16px;font-weight:700;color:var(--text1);">${wr.first.owner}</div>`+
+          `<div style="font-size:12px;color:var(--text2);margin-top:4px;">${wr.first.score.toFixed(2)} pts · <span style="color:var(--green);font-weight:700;">$100</span></div>`;
+      } else {
+        card.style.opacity='0.45';
+        card.innerHTML=`<div style="font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;">🔲 ${MAJOR_NAMES[wk].toUpperCase()}</div>`+
+          `<div style="font-size:14px;color:var(--text2);font-style:italic;">Upcoming</div>`;
+      }
+      grid.appendChild(card);
+    });
+  }
+
+  // Calculate each player's combined major points
+  const standings = PLAYERS.map(p=>{
+    let tot=0;
+    completed.forEach(wk=>{ const i=majorIdx[wk]; if(i!==undefined && p.scores[i]!=null) tot+=p.scores[i]; });
+    return {owner:p.owner, dk:p.dk, tot:Math.round(tot*100)/100};
+  }).sort((a,b)=>b.tot-a.tot);
+
+  const leader = standings[0]?.tot||0;
+  const tbody  = document.getElementById('majorsStandingsTbody');
+  if(tbody){
+    standings.forEach((p,i)=>{
+      const behind = i===0 ? '—' : `-${(leader-p.tot).toFixed(2)}`;
+      const b = i<3?'font-weight:700;':'';
+      const rc= i===0?'color:var(--gold);':i===1?'color:var(--silver);':i===2?'color:var(--bronze);':'';
+      const tr=document.createElement('tr');
+      tr.style.borderBottom='1px solid var(--border)';
+      tr.innerHTML=`<td style="padding:8px 0;${b}${rc}">${i+1}</td>`+
+        `<td style="padding:8px 0;${b}">${p.owner}</td>`+
+        `<td style="padding:8px 0;color:var(--text2);font-size:12px;">@${p.dk}</td>`+
+        `<td style="padding:8px 0;text-align:right;${b}color:var(--gold);">${p.tot.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>`+
+        `<td style="padding:8px 0;text-align:right;color:var(--text2);">${behind}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
 }
 
 function buildSprintRows(){
@@ -2062,6 +2151,7 @@ function initStickyColumns(){
 
 buildSprintRows();
 buildOverviewTop5();
+buildMajorsStandings();
 buildComparisonTable();
 buildCCStandingsTable();
 buildCCMovers();
